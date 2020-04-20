@@ -6,6 +6,12 @@ A app to find developers starred repositories.
 
 This app can be use on Android and IOS devices via USB, WI-FI or Device Emulator.
 
+### First install package
+
+Run `npm install`
+
+> or `yarn add`
+
 ### To install on Android
 
 Run `react-native run-android`
