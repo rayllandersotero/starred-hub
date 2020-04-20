@@ -1,6 +1,6 @@
 {
-  "name": "starred-hub",
-  "version": "1",
+  "name": "modulo_06",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
     "android": "react-native run-android",
