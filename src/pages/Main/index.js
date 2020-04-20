@@ -52,24 +52,40 @@ class Main extends Component {
   handleAddUser = async () => {
     const {users, newUser} = this.state;
 
+    if (!newUser || newUser === '') {
+      return alert('User not found');
+    }
+
     this.setState({loading: true});
 
-    const response = await api.get(`/users/${newUser}`);
+    await api
+      .get(`/users/${newUser}`)
+      .then((response) => {
+        const data = {
+          name: response.data.name,
+          login: response.data.login,
+          bio: response.data.bio,
+          avatar_url: response.data.avatar_url,
+        };
 
-    const data = {
-      name: response.data.name,
-      login: response.data.login,
-      bio: response.data.bio,
-      avatar_url: response.data.avatar_url,
-    };
+        this.setState({
+          users: [...users, data],
+          newUser: '',
+          loading: false,
+        });
 
-    this.setState({
-      users: [...users, data],
-      newUser: '',
-      loading: false,
-    });
+        Keyboard.dismiss();
+      })
+      .catch((error) => {
+        this.setState({
+          newUser: '',
+          loading: false,
+        });
 
-    Keyboard.dismiss();
+        Keyboard.dismiss();
+
+        return alert('User not found');
+      });
   };
 
   handleNavigate = (user) => {
@@ -97,7 +113,7 @@ class Main extends Component {
           <Input
             autoCapitalize="none"
             autoCorrect={false}
-            placeholder="Add user"
+            placeholder="Type a Github username"
             returnKeyType="done"
             onSubmitEditing={this.handleAddUser}
             value={newUser}
